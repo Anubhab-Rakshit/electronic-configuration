@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<head>
+    <title>
+        Electronic Configuration
+    </title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="This is an electronic configuration generator" />
+    <meta name="author" content="Anubhab Rakshit" />
+    <style rel="stylesheet" href="style.css"></style>
+    <link rel="icon" type="image/x-icon" href="icon.png" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <div id="top">
+        <h1>ELECTRONIC CONFIGURATION GENERATOR</h1>
+        <p id="note">This is an electronic configuration finding system of an element by just entering it's atomic number.  Atomic number of fictious elements will also work. <br> </p>
+    </div>
+    <div id="config-bar">
+        <input type="text" value="" id="atomic" placeholder="Enter the atomic number here....">
+        <br>
+        <br>
+        <input type="button"  value="Click here" id="confirm-atomic">
+        <input type="button" value="Clear" id="clear-btn">
+    </div>
+    <h2>Output :- </h2>
+    <div id="config-output">
+        <textarea  id="output-config" aria-readonly="true" ></textarea>
+    </div>
+    <h3>How to use?</h3>
+    <div id="how-to-use">
+        <ul>
+            <li>Enter the atomic number of the element in the first box</li>
+            <li>It may take time for the calculator to give results</li>
+            <li>If there is a lot of time delay , reload the page</li>
+            <li>The generator follows aufbau principle and takes care of exceptions</li>
+        </ul>
+    </div>
+    <footer id="foot">
+        <div id="credits">
+            ©  Made in public interest <br> By Anubhab Rakshit and Pravatanshu Mandal
+        </div>
+    </footer>
+    <style>
+        #output-config{
+            height: 40vh;
+            width: 100%;
+        }
+    </style>
+    <script>
+     document.onkeydown = function(e) {
+  if(event.keyCode == 123) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+     return false;
+  }
+  if(e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+     return false;
+  }
+     }
+    s="";
+document.getElementById("clear-btn").addEventListener("click" ,() =>{
+    document.getElementById("output-config").value=" "
+    location.reload()
+})
+document.getElementById("confirm-atomic").addEventListener("click",() => {
+    var ele=document.getElementById("atomic").value
+var z = 0;
+var n = 0;
+var l = 0;
+var i = 0;
+var f = 0;
+var sbshl = ['s', 'p', 'd', 'f'];
+var s = "";
+z=parseInt(ele)
+if (z==24 || z==29)
+{
+    if(z==24)
+    {
+        s="1s2 2s2 2p6 3s2 3p6 4s1 3d5"
+        n=4
+        document.getElementById("output-config").value=s+"\r\n The element lies in Period " + n + "\r\n The element lies in Group 6 \r\n The element lies in Block d <br> "
+    }
+    else{
+        s="1s2 2s2 2p6 3s2 3p6 4s1 3d10"
+        n=4
+        document.getElementById("output-config").value=s+"\r\n The element lies in Period " + n + "\r\n The element lies in Group 11 \r\n The element lies in Block d <br> "
+   
+    }
+}
+    else{   
+        for (n = 1, l = 0; z > 0; n++)
+        {
+            if (z <= 2)
+            {
+                s = s + n + subshell(l) + z + "  ";
+                break;
+            }
+            else 
+            {
+                s = s + n + subshell(l) + 2 + "  ";
+                z = z - 2;
+                for (i = 2, l = 1 + n - i; i <= n; i++, l--)
+                {
+                    if (l < i)
+                    {
+                        if (z <= (4 * l + 2))
+                        {
+                            s = s + i + subshell(l) + z + "  ";
+                            f = 1;
+                            break;
+                        }
+                        else 
+                        {
+                            s = s + i + subshell(l) + (4 * l + 2) + "  ";
+                            z =z-(4 * l + 2);
+                        }
+                    }
+                }
+                if (f == 1)
+                {
+                    break;
+                }
+            }
+        }
+    function subshell(l)
+    {
+        var sbshl = ['s', 'p', 'd', 'f'];
+        if (l <= 3)
+        {
+            return sbshl[l];
+        }
+        else 
+        {
+            return (sbshl[3]+ (l - 3));
+        }
+    }
+    
+    document.getElementById("output-config").innerHTML=s+"\r\n The element lies in Period " + s + "\r\n The element lies in Group " + (l==0?z:(l==1?(z+12):(l==2?(z+2):3))) + "\r\n The element lies in Block " + subshell(l)
+ }
+
+})
+    </script>
+    <style>
+    body{
+    margin: 0%;
+    height: 100%;
+    width: 100%;
+    }
+    #top{
+    height: 20%;
+    width: 100%;
+    }   
+    #top h1{
+    font-family: Helvetica;
+    font-size: 30px;
+    font-weight: bolder;
+    background-color: greenyellow;
+    text-align: center;
+    align-self: center;
+    height: 50%;
+    }
+    p#note{
+        width: 100%;
+        font-size: 20px;
+        background-color: antiquewhite;
+        padding-left: 2%;
+    }
+    #config-bar{
+        margin-top: 3%;
+        height: 40vh;
+        width: 100%;
+        margin-left: 3%;
+        margin-bottom: 4%;
+    }
+    #config-bar #atomic{
+        width: 60%;
+        height: 20%;
+        padding-left: 2%;
+    }
+    #confirm-atomic,#clear-btn{
+        background-color: green;
+        border: none;
+        color: white;
+        width: 10%;
+        height: 20%;
+        font-size: larger;
+        font-family: Helvetica;
+    }
+    #clear-btn{
+        margin-left: 20%;
+    }
+    #confirm-atomic:hover,#clear-btn:hover{
+        background-color: blue;
+    }
+    #config-output{
+        height: 30vh;
+        width: 100%;
+        margin-left: 3%;
+    }
+    #config-output textarea{
+        height: 70%;
+    }
+    h2{
+        margin-left: 3%;
+    }
+    #how-to-use{
+        height: 30%;
+        width: 100%;
+        background-color: burlywood;
+    }
+    #how-to-use ul{
+        list-style: none;
+    }
+    #how-to-use ul li{
+        padding: 2% 5% 2% 3%;
+        font-size: larger;
+    }
+    h3{
+        margin-left: 3%;
+        font-size: 25px;
+    }
+    #foot{
+        text-align: center;
+        background-color: aquamarine;
+        opacity: 90%;
+        height: 10%;
+        font-size: 20px;
+    }
+    @media screen and (max-width: 600px) {
+        #config-bar #confirm-atomic{
+            width: 20%;
+        }
+        #config-bar #clear-btn{
+            width: 20%;
+        }
+    }
+    </style>
+</body>
+</html>
+<!-- s+"<br> The element lies in Period " + s + "<br> The element lies in Group " + (l==0?z:(l==1?(z+12):(l==2?(z+2):3))) + "<br> The element lies in Block " + subshell(l)-->
